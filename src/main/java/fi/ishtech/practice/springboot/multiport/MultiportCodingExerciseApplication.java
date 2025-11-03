@@ -7,15 +7,30 @@ import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.util.Assert;
 
 import lombok.extern.slf4j.Slf4j;
 
+//@formatter:off
+@SpringBootApplication(scanBasePackages = {
+		"fi.ishtech.springboot.jwtauth",
+		"fi.ishtech.practice.springboot.multiport"
+})
+@EntityScan(basePackages = {
+		"fi.ishtech.springboot.jwtauth.entity",
+		"fi.ishtech.practice.springboot.multiport.entity"
+})
+@EnableJpaRepositories(basePackages = {
+		"fi.ishtech.springboot.jwtauth.repo",
+		"fi.ishtech.practice.springboot.multiport.repo"
+})
+//@formatter:on
 @Slf4j
-@SpringBootApplication
 public class MultiportCodingExerciseApplication {
 
 	public static void main(String[] args) {
