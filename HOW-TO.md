@@ -2,12 +2,12 @@
 ## Build
 ### Maven build
 ```
-mvn clean install -DskipTests=true
+./mvnw clean install -DskipTests=true
 ```
 or
 
 ```
-mvn clean package
+./mvnw clean package
 ```
 
 ### Docker build
@@ -20,18 +20,20 @@ docker build -f Dockerfile . -t muneer2ishtech/springboot_multiport_coding_exerc
 docker build -f Dockerfile . -t muneer2ishtech/springboot_multiport_coding_exercise:1.0.0 -t muneer2ishtech/springboot_multiport_coding_exercise:latest
 ```
 
+- Note: check and use version from pom.xml
+
 ## Local Run
 ### Run using Maven
 - Without additional ports
 
 ```
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 
 - With additional ports
 
 ```
-mvn spring-boot:run -Dspring-boot.run.arguments="--fi.ishtech.practice.springboot.multiport.additional-ports=true"
+./mvnw spring-boot:run -Dspring-boot.run.arguments="--fi.ishtech.practice.springboot.multiport.additional-ports=true"
 ```
 
 ### Run using already built Docker image
