@@ -1,0 +1,8 @@
+CREATE TABLE t_book (
+  id     BIGSERIAL     NOT NULL,
+  title  VARCHAR(255)  NOT NULL UNIQUE,
+  author VARCHAR(255)  NOT NULL,
+  year   SMALLINT      NOT NULL,
+  price  NUMERIC(10,2) NOT NULL,
+  PRIMARY KEY (id)
+);

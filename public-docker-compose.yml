@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15
+    container_name: postgres_multiport_coding_exercise
+    restart: always
+    environment:
+      POSTGRES_DB: ishdb
+      POSTGRES_USER: ishuser
+      POSTGRES_PASSWORD: q&6VP5fp
+    ports:
+       - 5432:5432
+
+  spring-boot-app:
+    image: muneer2ishtech/springboot_multiport_coding_exercise:0.1.0-SNAPSHOT
+    container_name: springboot_multiport_coding_exercise
+    ports:
+       - 8080:8080
+       - 8081:8081
+       - 8082:8082
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_multiport_coding_exercise:5432/ishdb
+      - FI_ISHTECH_CODINGEXERCISE_MULTIPORT_ADDITIONAL-PORTS=false
+    depends_on:
+      - postgres-db
