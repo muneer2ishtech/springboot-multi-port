@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -11,11 +13,33 @@
 	</parent>
 
 	<groupId>fi.ishtech.practice.springboot</groupId>
-	<artifactId>springboot-multiport</artifactId>
+	<artifactId>ishtech-springboot-multiport</artifactId>
 	<version>2.0.0-SNAPSHOT</version>
 
 	<name>springboot-multiport</name>
 	<description>Coding Exercise for having multiple ports on Spring Boot</description>
+
+	<licenses>
+		<license>
+			<name>0BSD</name>
+			<url>https://opensource.org/license/0bsd/</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Muneer Ahmed Syed</name>
+			<url>https://github.com/muneer2ishtech</url>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>https://github.com/muneer2ishtech/springboot-multiport</url>
+	</scm>
 
 	<properties>
 		<java.version>17</java.version>
@@ -105,6 +129,7 @@
 			<artifactId>gson</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
