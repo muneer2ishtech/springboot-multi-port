@@ -1,6 +1,7 @@
 
 ## Build
 ### Maven build
+
 ```
 ./mvnw clean install -DskipTests=true
 ```
@@ -9,8 +10,13 @@ or
 ```
 ./mvnw clean package
 ```
+### Docker build
 
-- Note: check and use version from pom.xml
+```
+docker build . \
+-t muneer2ishtech/ishtech-springboot-multiport:\
+$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)
+```
 
 ## Local Run
 ### Run using Maven
@@ -41,6 +47,7 @@ or
 
 ### To Run using Docker
 
+- Note: check and use version from pom.xml
 - Add option ` -d` if you want to run in background
 
 
