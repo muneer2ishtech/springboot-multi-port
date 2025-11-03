@@ -12,12 +12,12 @@ mvn clean package
 
 ### Docker build
 ```
-docker build -f Dockerfile . -t muneer2ishtech/springboot_multiport_coding_exercise:0.1.0-SNAPSHOT
+docker build -f Dockerfile . -t muneer2ishtech/springboot_multiport_coding_exercise:1.0.0
 ```
 
 #### Docker build multiple tags
 ```
-docker build -f Dockerfile . -t muneer2ishtech/springboot_multiport_coding_exercise:0.1.0-SNAPSHOT -t muneer2ishtech/springboot_multiport_coding_exercise:latest
+docker build -f Dockerfile . -t muneer2ishtech/springboot_multiport_coding_exercise:1.0.0 -t muneer2ishtech/springboot_multiport_coding_exercise:latest
 ```
 
 ## Local Run
@@ -36,7 +36,7 @@ mvn spring-boot:run -Dspring-boot.run.arguments="--fi.ishtech.practice.springboo
 
 ### Run using already built Docker image
 ```
-docker run -it muneer2ishtech/springboot_multiport_coding_exercise:0.1.0-SNAPSHOT
+docker run -it muneer2ishtech/springboot_multiport_coding_exercise:1.0.0
 ```
 
 ### Run using Docker composer
@@ -64,7 +64,7 @@ docker image push --all-tags muneer2ishtech/springboot_multiport_coding_exercise
 
 ### Pull from Docker Hub
 ```
-docker pull muneer2ishtech/springboot_multiport_coding_exercise:0.1.0-SNAPSHOT
+docker pull muneer2ishtech/springboot_multiport_coding_exercise:1.0.0
 ```
 
 ## Run Docker Image pulled from Docker Hub

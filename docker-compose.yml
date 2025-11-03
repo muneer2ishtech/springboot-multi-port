@@ -13,7 +13,7 @@ services:
        - 5432:5432
 
   spring-boot-app:
-    image: muneer2ishtech/springboot_multiport_coding_exercise:0.1.0-SNAPSHOT
+    image: muneer2ishtech/springboot_multiport_coding_exercise:1.0.0
     container_name: springboot_multiport_coding_exercise
     build:
       context: .

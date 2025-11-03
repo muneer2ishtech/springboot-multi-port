@@ -12,7 +12,7 @@
 
 	<groupId>fi.ishtech.practice.springboot</groupId>
 	<artifactId>springboot-multiport</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 
 	<name>springboot-multiport</name>
 	<description>Coding Exercise for having multiple ports on Spring Boot</description>
