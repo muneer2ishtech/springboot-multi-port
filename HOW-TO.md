@@ -1,93 +1,82 @@
 
 ## Build
 ### Maven build
+
 ```
-mvn clean install -DskipTests=true
+./mvnw clean install -DskipTests=true
 ```
 or
 
 ```
-mvn clean package
+./mvnw clean package
 ```
-
 ### Docker build
-```
-docker build -f Dockerfile . -t muneer2ishtech/springboot_multiport_coding_exercise:1.0.0
-```
 
-#### Docker build multiple tags
 ```
-docker build -f Dockerfile . -t muneer2ishtech/springboot_multiport_coding_exercise:1.0.0 -t muneer2ishtech/springboot_multiport_coding_exercise:latest
+docker build . \
+-t muneer2ishtech/ishtech-springboot-multiport:\
+$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)
 ```
 
 ## Local Run
 ### Run using Maven
-- Without additional ports
+
+- To run on single port / without additional ports
 
 ```
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 
-- With additional ports
+- To run on multiple ports / use additional ports
+    - With default `8081` for books URLs, `8082` for user URLs
 
 ```
-mvn spring-boot:run -Dspring-boot.run.arguments="--fi.ishtech.practice.springboot.multiport.additional-ports=true"
+./mvnw spring-boot:run -Dspring-boot.run.arguments="--fi.ishtech.practice.springboot.multiport.additional-ports=true"
 ```
 
-### Run using already built Docker image
-```
-docker run -it muneer2ishtech/springboot_multiport_coding_exercise:1.0.0
-```
-
-### Run using Docker composer
-- This will run PostgreSQL together
+- To run on multiple ports / use additional ports
+    - To use custom ports for books and user URLs
 
 ```
-docker compose -f docker-compose.yml up
-
+./mvnw spring-boot:run \
+  -Dspring-boot.run.arguments="\
+    --fi.ishtech.practice.springboot.multiport.additional-ports=true \
+    --fi.ishtech.practice.springboot.multiport.user-port=8082 \
+    --fi.ishtech.practice.springboot.multiport.book-port=8081"
 ```
 
-## Docker Hub
-### Push to Docker Hub
-- You need to sign in to Docker Hub
-- Local maven and docker build should be successful
+### To Run using Docker
+
+- Note: check and use version from pom.xml
+- Add option ` -d` if you want to run in background
+
+
+- To run on single port / without additional ports
+    - default port `8080`
 
 ```
-docker compose -f docker-compose.yml push
-
+docker run muneer2ishtech/ishtechspringboot-multiport:1.0.0
 ```
 
-#### To push all tags to Docker Hub
-```
-docker image push --all-tags muneer2ishtech/springboot_multiport_coding_exercise
-```
-
-### Pull from Docker Hub
-```
-docker pull muneer2ishtech/springboot_multiport_coding_exercise:1.0.0
-```
-
-## Run Docker Image pulled from Docker Hub
-- To download the executable docker image and run (without any local build)
-- Download `public-docker-compose.yml` from [Github](https://github.com/muneer2ishtech/springboot-multiport)
-  - This to get docker image from [Docker Hub](https://hub.docker.com/repository/docker/muneer2ishtech/springboot_multiport_coding_exercise)
-- To pull the docker image use following command
-  - This will get PostgreSQL Docker image also
+- To run on multiple ports / use additional ports
+    - With default `8081` for books URLs, `8082` for user URLs
 
 ```
-docker compose -f public-docker-compose.yml pull
+docker run -d \
+  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS=true \
+  muneer2ishtech/ishtechspringboot-multiport:1.0.0
 ```
 
-- To Run the docker image, execute following command
+- To run on multiple ports / use additional ports
+    - To use custom ports for books and user URLs
 
 ```
-docker compose -f public-docker-compose.yml up
+docker run -d \
+  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS=true \
+  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK-PORT=8081 \
+  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER-PORT=8082 \
+  muneer2ishtech/ishtechspringboot-multiport:1.0.0
 ```
-
-### To Run with additional port for image pulled from Docker Hub
-- To use additional ports for public docker image:
-  - In `public-docker-compose.yml`, change `FI_ISHTECH_CODINGEXERCISE_MULTIPORT_ADDITIONAL-PORTS` to `true`
-
 
 ## APIs
 See [APIs](./README.md#APIs) on how to find APIs to use for application

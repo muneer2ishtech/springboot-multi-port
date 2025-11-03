@@ -15,16 +15,15 @@ See [How-to](./HOW-TO.md) on how to make maven, docker builds and push & pull im
     - PORT for `**/books/**` is `8081`
 - By default additional-ports is set to `false`, i.e. all API URLs use only `8080` port
 
+# authentication & Autherization
+
+- Uses [ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth)
 
 
 # APIs
 
 |Module |API                 |HTTP   |URL                                     |
 |-------|--------------------|-------|----------------------------------------|
-|Auth   |Signin              |POST   |localhost:8080/api/auth/signin          |
-|Auth   |Signup              |POST   |localhost:8080/api/auth/signup          |
-|Auth   |Update Password     |PATCH  |localhost:8080/api/auth/update-password |
-|       |                    |       |                                        |
 |User   |Get User Details    |GET    |localhost:PORT/api/v1/users/{userId}    |
 |User   |Update User Details |PUT    |localhost:PORT/api/v1/users             |
 |       |                    |       |                                        |
@@ -41,97 +40,7 @@ See [How-to](./HOW-TO.md) on how to make maven, docker builds and push & pull im
 # API Details 
 
 ## APIs for Auth
- 
-<table>
-<tr>
-<td><b>Signin</b> - <code>HTTP POST</code></td>
-<td><a href="http://localhost:8080/api/auth/signin">localhost:8080/api/auth/signin</a></td>
-</tr>
-<tr>
-<td style="vertical-align:text-top">
-Sample Request JSON
-
-```json
-{
-    "username": "muneer2ishtech@gmail.com",
-    "password": "Test1234"
-}
-```
-</td>
-<td style="vertical-align:text-top">
-Sample Response JSON
-
-```json
-{
-    "iss": "codingexercise.ishtech.fi",
-    "sub": "muneer2ishtech@gmail.com",
-    "iat": 1693838542156,
-    "exp": 1693840342156,
-    "scopes": [
-        "ROLE_USER"
-    ],
-    "token_type": "Bearer",
-    "access_token": "eyJhbGciOiJIUzI1NiJ9"
-}
-```
-</td>
-</tr>
-</table>
-<br>
-<br>
-<br>
-<table>
-<tr>
-<td><b>Signup</b> - <code>HTTP POST</code></td>
-<td><a href="http://localhost:8080/api/auth/signup">localhost:8080/api/auth/signup</a></td>
-</tr>
-<tr>
-<td style="vertical-align:text-top">
-Sample Request JSON
-
-```json
-{
-    "username": "muneer2ishtech@gmail.com",
-    "password": "Test1234",
-    "passwordRepeat": "Test1234",
-    "firstName": "Muneer",
-    "lastName": "Syed"
-}
-```
-</td>
-<td>
-Http Response code is 201 - Created<br>
-Response is <code>id</code> of the user signed up<br><br>
-Http Reponse code - 400 - Bad Request if username / email already exists
-
-</td>
-</tr>
-</table>
-<br>
-<br>
-<br>
-<table>
-<tr>
-<td><b>Update Password</b> - <code>HTTP PATCH</code></td>
-<td><a href="http://localhost:8080/api/auth/update-password">localhost:8080/api/auth/update-password</a></td>
-</tr>
-<tr>
-<td style="vertical-align:text-top">
-Sample Request JSON
-
-```json
-{
-    "oldPassword": "Test1234",
-    "newPassword": "Test1235",
-    "newPasswordRepeat": "Test1235"
-}
-```
-</td>
-<td>
-Response is <code>BLANK</code> for HTTP 200
-</td>
-</tr>
-</table>
+- See [Auth APIs Info](https://github.com/IshTech/ishtech-springboot-jwtauth/blob/main/API-INFO.md)
 
 ## APIs for USER management
 

@@ -2,91 +2,128 @@ package fi.ishtech.practice.springboot.multiport.controller;
 
 import java.net.URI;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import fi.ishtech.practice.springboot.multiport.entity.User;
-import fi.ishtech.practice.springboot.multiport.exception.UsernameAlreadyExistsException;
-import fi.ishtech.practice.springboot.multiport.payload.PasswordUpdateRequest;
-import fi.ishtech.practice.springboot.multiport.payload.SigninRequest;
-import fi.ishtech.practice.springboot.multiport.payload.SignupRequest;
-import fi.ishtech.practice.springboot.multiport.repo.UserRepo;
-import fi.ishtech.practice.springboot.multiport.security.jwt.JwtUtil;
-import fi.ishtech.practice.springboot.multiport.service.UserService;
+import fi.ishtech.springboot.jwtauth.dto.CustomErrorResponse;
+import fi.ishtech.springboot.jwtauth.dto.SigninDto;
+import fi.ishtech.springboot.jwtauth.dto.SignupDto;
+import fi.ishtech.springboot.jwtauth.dto.UpdatePasswordDto;
+import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
+import fi.ishtech.springboot.jwtauth.jwt.JwtResponse;
+import fi.ishtech.springboot.jwtauth.jwt.JwtService;
+import fi.ishtech.springboot.jwtauth.service.UserService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author Muneer Ahmed Syed
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
+@RequiredArgsConstructor
 @Slf4j
 public class AuthController {
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	@Value("${fi.ishtech.springboot.jwtauth.login-by-email:true}")
+	private boolean loginByEmail;
 
-	@Autowired
-	private JwtUtil jwtUtil;
+	private final AuthenticationManager authenticationManager;
+	private final JwtService jwtService;
 
-	@Autowired
-	private UserRepo userRepo;
+	private final UserService userService;
 
-	@Autowired
-	private UserService userService;
-
+	// @formatter:off
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK",
+					content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+							schema = @Schema(implementation = JwtResponse.class))),
+			@ApiResponse(responseCode = "403", description = "Bad credentials",
+					content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+							schema = @Schema(implementation = CustomErrorResponse.class)))
+	})
+	// @formatter:on
 	@PostMapping("/signin")
-	public ResponseEntity<?> signin(@Valid @RequestBody SigninRequest signinRequest) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(signinRequest.getUsername(), signinRequest.getPassword()));
+	public ResponseEntity<?> signin(@Valid @RequestBody SigninDto signinDto) {
+		String username = loginByEmail ? signinDto.getEmail() : signinDto.getUsername();
+		log.debug("Signin request for {}", username);
+
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(username, signinDto.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		return ResponseEntity.ok(jwtUtil.getJwtResponse(authentication));
+		return ResponseEntity.ok(jwtService.generateJwtResponse(authentication));
 	}
 
+	// @formatter:off
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "CREATED",
+					content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE))
+	})
+	// @formatter:on
 	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@Valid @RequestBody SignupRequest signupRequest) {
-		log.debug("Signigup: {}", signupRequest.getUsername());
+	public ResponseEntity<?> signup(@Valid @RequestBody SignupDto signupDto) {
+		log.debug("New Signup: {}", loginByEmail ? signupDto.getEmail() : signupDto.getUsername());
 
-		if (userRepo.existsByEmail(signupRequest.getUsername())) {
-			log.warn("Username: {} already exists", signupRequest.getUsername());
-			throw new UsernameAlreadyExistsException();
+		// TODO: verify recaptcha
+
+		if (userService.existsByEmail(signupDto.getEmail())) {
+			log.warn("Username Email: {} already exists", signupDto.getEmail());
+			return ResponseEntity.badRequest().body(null);
 		}
 
-		User user = userService.create(signupRequest);
+		UserProfileDto userProfileDto = userService.create(signupDto);
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/users/{userId}")
-				.buildAndExpand(user.getId()).toUri();
+		// TODO: send verification/welcome email
 
-		return ResponseEntity.created(uri).body(user.getId());
+		// @formatter:off
+		URI uri = ServletUriComponentsBuilder
+					.fromCurrentContextPath()
+					.path("/api/v1/users/{userId}")
+					.buildAndExpand(userProfileDto.getId())
+					.toUri();
+		// @formatter:on
+
+		return ResponseEntity.created(uri).body(userProfileDto.getId());
 	}
 
-	@PreAuthorize(value = "hasAuthority('ROLE_USER')")
-	@PatchMapping("/update-password")
-	public ResponseEntity<Void> update(@Valid @RequestBody PasswordUpdateRequest passwordUpdateRequest) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Long userId = jwtUtil.getUserId(authentication);
-		log.debug("Updating password for {}", userId);
+	// @formatter:off
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK")
+	})
+	// @formatter:on
+	@PutMapping(path = "/update-password", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> updatePassword(@Valid @RequestBody UpdatePasswordDto updatePasswordDto,
+			HttpServletRequest request) {
+		Long userId = jwtService.extractUserIdFromRequest(request);
+		log.debug("Update password request for User({})", userId);
 
-		userService.updatePassword(userId, passwordUpdateRequest);
+		// TODO: recaptcha
 
-		return ResponseEntity.ok(null);
+		@SuppressWarnings("unused")
+		UserProfileDto userProfileDto = userService.updatePassword(userId, updatePasswordDto);
+		// emailService.notifyPasswordUpdated(userProfileDto);
+
+		return ResponseEntity.ok().build();
 	}
 
 }

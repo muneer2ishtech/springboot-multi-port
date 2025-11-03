@@ -1,32 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.3</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<version>3.5.7</version>
+		<relativePath />
 	</parent>
 
 	<groupId>fi.ishtech.practice.springboot</groupId>
-	<artifactId>springboot-multiport</artifactId>
-	<version>1.0.0</version>
+	<artifactId>ishtech-springboot-multiport</artifactId>
+	<version>2.0.0</version>
 
 	<name>springboot-multiport</name>
 	<description>Coding Exercise for having multiple ports on Spring Boot</description>
 
+	<licenses>
+		<license>
+			<name>0BSD</name>
+			<url>https://opensource.org/license/0bsd/</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Muneer Ahmed Syed</name>
+			<url>https://github.com/muneer2ishtech</url>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>https://github.com/muneer2ishtech/springboot-multiport</url>
+	</scm>
+
 	<properties>
-		<java.version>17</java.version>
+		<java.version>25</java.version>
 
-		<jjwt-api.version>0.11.5</jjwt-api.version>
-		<jjwt-impl.version>0.11.5</jjwt-impl.version>
-		<jjwt-jackson.version>0.11.5</jjwt-jackson.version>
+		<jjwt.version>0.13.0</jjwt.version>
+		<gson.version>2.13.2</gson.version>
 
-		<gson.version>2.10.1</gson.version>
+		<ishtech-springboot-jwtauth.version>0.5.0</ishtech-springboot-jwtauth.version>
 
-		<springdoc-openapi.version>2.1.0</springdoc-openapi.version>
+		<springdoc.version>2.8.13</springdoc.version>
 	</properties>
 
 	<dependencies>
@@ -52,36 +75,37 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
+			<groupId>fi.ishtech.springboot</groupId>
+			<artifactId>ishtech-springboot-jwtauth-lib</artifactId>
+			<version>${ishtech-springboot-jwtauth.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
-			<version>${jjwt-api.version}</version>
+			<version>${jjwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-impl</artifactId>
-			<version>${jjwt-impl.version}</version>
+			<version>${jjwt.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId>
-			<version>${jjwt-jackson.version}</version>
+			<version>${jjwt.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -96,25 +120,34 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>${springdoc-openapi.version}</version>
+			<version>${springdoc.version}</version>
 		</dependency>
 
 	</dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<annotationProcessorPath>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</annotationProcessorPath>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
