@@ -89,8 +89,8 @@ To run single spring-boot application on multiple ports at the same time
 ./mvnw spring-boot:run \
   -Dspring-boot.run.arguments="\
     --fi.ishtech.practice.springboot.multiport.additional-ports=true \
-    --fi.ishtech.practice.springboot.multiport.user-port=8082 \
-    --fi.ishtech.practice.springboot.multiport.book-port=8081"
+    --fi.ishtech.practice.springboot.multiport.user-port=8282 \
+    --fi.ishtech.practice.springboot.multiport.book-port=8181"
 ```
 
 
@@ -115,7 +115,7 @@ docker build . \
 
 ```
 docker run \
-  muneer2ishtech/ishtech-springboot-multi-port:1.0.0
+  muneer2ishtech/ishtech-springboot-multi-port:x.y.z
 ```
 
 - To run on multiple ports / use additional ports
@@ -124,7 +124,7 @@ docker run \
 ```
 docker run \
   -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS=true \
-  muneer2ishtech/ishtech-springboot-multi-port:1.0.0
+  muneer2ishtech/ishtech-springboot-multi-port:x.y.z
 ```
 
 - To run on multiple ports / use additional ports
@@ -133,7 +133,7 @@ docker run \
 ```
 docker run \
   -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS=true \
-  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK-PORT=8081 \
-  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER-PORT=8082 \
-  muneer2ishtech/ishtech-springboot-multi-port:1.0.0
+  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK-PORT=8181 \
+  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER-PORT=8282 \
+  muneer2ishtech/ishtech-springboot-multi-port:x.y.z
 ```
