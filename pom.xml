@@ -76,7 +76,7 @@
 
 		<dependency>
 			<groupId>fi.ishtech.springboot</groupId>
-			<artifactId>ishtech-springboot-jwtauth-lib</artifactId>
+			<artifactId>ishtech-springboot-jwtauth-api</artifactId>
 			<version>${ishtech-springboot-jwtauth.version}</version>
 		</dependency>
 
