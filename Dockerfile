@@ -17,6 +17,6 @@ EXPOSE ${SERVER_PORT}
 EXPOSE ${FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK_PORT}
 EXPOSE ${FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER_PORT}
 
-COPY --from=build target/ishtech-springboot-multiport-*.jar ishtech-springboot-multiport.jar
+COPY --from=build target/ishtech-springboot-multi-port-*.jar ishtech-springboot-multi-port.jar
 
-ENTRYPOINT ["java", "-jar", "ishtech-springboot-multiport.jar"]
+ENTRYPOINT ["java", "-jar", "ishtech-springboot-multi-port.jar"]

@@ -14,7 +14,7 @@ or
 
 ```
 docker build . \
--t muneer2ishtech/ishtech-springboot-multiport:\
+-t muneer2ishtech/ishtech-springboot-multi-port:\
 $(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)
 ```
 
@@ -55,7 +55,7 @@ $(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null
     - default port `8080`
 
 ```
-docker run muneer2ishtech/ishtechspringboot-multiport:1.0.0
+docker run muneer2ishtech/ishtech-springboot-multi-port:1.0.0
 ```
 
 - To run on multiple ports / use additional ports
@@ -64,7 +64,7 @@ docker run muneer2ishtech/ishtechspringboot-multiport:1.0.0
 ```
 docker run -d \
   -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS=true \
-  muneer2ishtech/ishtechspringboot-multiport:1.0.0
+  muneer2ishtech/ishtech-springboot-multi-port:1.0.0
 ```
 
 - To run on multiple ports / use additional ports
@@ -75,7 +75,7 @@ docker run -d \
   -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS=true \
   -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK-PORT=8081 \
   -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER-PORT=8082 \
-  muneer2ishtech/ishtechspringboot-multiport:1.0.0
+  muneer2ishtech/ishtech-springboot-multi-port:1.0.0
 ```
 
 ## APIs

@@ -33,4 +33,4 @@ jobs:
     - name: Build the Docker image
       run: |
         docker build . --file Dockerfile \
-         --tag muneer2ishtech/ishtechspringboot-multiport:${{ steps.project-version.outputs.project_version }}
+         --tag muneer2ishtech/ishtech-springboot-multi-port:${{ steps.project-version.outputs.project_version }}
