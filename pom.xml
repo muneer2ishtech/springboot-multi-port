@@ -49,7 +49,7 @@
 
 		<ishtech-springboot-jwtauth.version>1.0.0</ishtech-springboot-jwtauth.version>
 
-		<springdoc.version>2.8.13</springdoc.version>
+		<springdoc.version>2.8.15</springdoc.version>
 	</properties>
 
 	<dependencies>
