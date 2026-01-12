@@ -1,267 +1,145 @@
+# springboot-multi-port
+To run single spring-boot application on multiple ports at the same time
 
-## How to
-See [How-to](./HOW-TO.md) on how to make maven, docker builds and push & pull images to Docker Hub
+## Tech stack
+- Java: 25
+- Spring Boot: 3.5.9
+- Database: H2
+- Containerization: Docker
 
-### Docker Image pulled from Docker Hub
-- [How to run Docker Image pulled from Docker Hub](./HOW-TO.md#run-docker-image-pulled-from-docker-hub) without making any builds locally
+##
 
-# Ports
+[GIT](https://github.com/muneer2ishtech/springboot-multi-port)
+
+## Dependencies
+- [ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth) - For Authentiation & Authorization
+
+## Ports
 
 - Default port: 8080
 
 ### Additional Ports
-- If application property `fi.ishtech.practice.springboot.multiport.additional-ports` or environment variable `FI_ISHTECH_CODINGEXERCISE_MULTIPORT_ADDITIONAL-PORTS` is set to `true`
+- If application property `fi.ishtech.practice.springboot.multiport.additional-ports` or environment variable `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS` is set to `true`
     - PORT for `**/users/**` is `8082`
     - PORT for `**/books/**` is `8081`
 - By default additional-ports is set to `false`, i.e. all API URLs use only `8080` port
 
-# authentication & Autherization
 
-- Uses [ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth)
+## APIs
 
+| Module  | Type                | HTTP   | URL                                      |
+|---------|---------------------|--------|------------------------------------------|
+| API Doc | OpenAPI             | GET    | localhost:8080/api-docs                  |
+| API Doc | Swagger             | GET    | localhost:8080/swagger-ui.html           |
+| User    | Get User Details    | GET    | localhost:PORT1/api/v1/users/{userId}    |
+| User    | Update User Details | PUT    | localhost:PORT1/api/v1/users             |
+| Book    | Create Book         | POST   | localhost:PORT2/api/v1/books             |
+| Book    | Get All Books       | GET    | localhost:PORT2/api/v1/books             |
+| Book    | Update Book         | PUT    | localhost:PORT2/api/v1/books             |
+| Book    | Get Book by ID      | GET    | localhost:PORT2/api/v1/books/{bookId}    |
+| Book    | Delete Book By ID   | DELETE | localhost:PORT2/api/v1/books/{bookId}    |
 
-# APIs
+- For details you can see swagger documentation
+    - [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+    - [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
+- Note: Check and update URI and PORT on which application is running
 
-|Module |API                 |HTTP   |URL                                     |
-|-------|--------------------|-------|----------------------------------------|
-|User   |Get User Details    |GET    |localhost:PORT/api/v1/users/{userId}    |
-|User   |Update User Details |PUT    |localhost:PORT/api/v1/users             |
-|       |                    |       |                                        |
-|Book   |Create Book         |POST   |localhost:PORT/api/v1/books             |
-|Book   |Get All Books       |GET    |localhost:PORT/api/v1/books             |
-|Book   |Update Book         |PUT    |localhost:PORT/api/v1/books             |
-|Book   |Get Book by ID      |GET    |localhost:PORT/api/v1/books/{bookId}    |
-|Book   |Delete Book By ID   |DELETE |localhost:PORT/api/v1/books/{bookId}    |
-|       |                    |       |                                        |
-|API Doc| OpenAPI            | GET   |localhost:8080/api-docs                 |
-|API Doc| Swagger            | GET   |localhost:8080/swagger-ui.html          |
+- For API request/response samples:
+    - See [API-INFO.md](./API-INFO.md)
 
+- For Authentiation & Authorization APIs:
+    - See [ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth)
 
-# API Details 
+- For DB
+     - [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
 
-## APIs for Auth
-- See [Auth APIs Info](https://github.com/IshTech/ishtech-springboot-jwtauth/blob/main/API-INFO.md)
+## Build and Run
 
-## APIs for USER management
+- Ensure the port, db properties etc are correct in application-xxx.properties
 
-<table>
-<tr>
-<td><b>Get User Details</b> - <code>HTTP GET</code></td>
-<td><a href="http://localhost:8080/api/v1/users/{userId}">localhost:PORT/api/v1/users/1</a></td>
-</tr>
-<tr>
-<td>
-Request Param: <code>userId</code><br><br>
-If <code>userId</code> does not match with <code>user.id</code> in authentication context,<br>
-then <code>403-Forbidden</code>error will be thrown.
+### Maven
 
-</td>
-<td style="vertical-align:text-top">
-Sample Response JSON
+#### Local Maven Build
 
-```json
-{
-    "id": 1,
-    "email": "muneer2ishtech@gmail.com",
-    "firstName": "Muneer",
-    "lastName": "Syed"
-}
+- Build without tests
+
 ```
-</td>
-</tr>
-</table>
-<br>
-<br>
-<br>
-<table>
-<tr>
-<td><b>Update User Details</b> - <code>HTTP PUT</code></td>
-<td><a href="http://localhost:8080/api/v1/users">localhost:PORT/api/v1/users</a></td>
-</tr>
-<tr>
-<td style="vertical-align:text-top">
-Sample Request JSON
-
-```json
-{
-    "id": 1,
-    "firstName": "New Muneer",
-    "lastName": "New Syed"
-}
+./mvnw clean install -DskipTests
 ```
 
-If <code>user.id</code> from request body does not match with <code>user.id</code> in authentication context,<br>
-then <code>403-Forbidden</code> error will be thrown.<br><br>
-email or password cannot be updated using this request
+- Build with Junit tests
 
-</td>
-<td style="vertical-align:text-top">
-Sample Response JSON
-
-```json
-{
-    "id": 1,
-    "firstName": "New Muneer",
-    "lastName": "New Syed"
-}
 ```
-</td>
-</tr>
-</table>
-<br>
-<br>
-<br>
-
-## APIs for BOOK management
-
-<table>
-<tr>
-<td><b>Create Book</b> - <code>HTTP POST</code></td>
-<td><a href="http://localhost:8080/api/v1/books">localhost:PORT/api/v1/books</a></td>
-</tr>
-<tr>
-<td style="vertical-align:text-top">
-Sample Request JSON
-
-```json
-{
-    "title" : "Postgre Fundamentals",
-    "author" : "Ahmed",
-    "year": 2022,
-    "price": 12.34
-}
+./mvnw clean install
 ```
 
-</td>
-<td>
-Http Response code is 201 - Created<br>
-Response is <code>id</code> of the book created<br><br>
-Http Reponse code - 400 - Bad Request if Book name already exists
-</td>
-</tr>
-</table>
-<br>
-<br>
-<br>
-<table>
-<tr>
-<td><b>Update Book</b> - <code>HTTP PUT</code></td>
-<td><a href="http://localhost:8080/api/v1/books">localhost:PORT/api/v1/books</a></td>
-</tr>
-<tr>
-<td style="vertical-align:text-top">
-Sample Request JSON
+#### Local Maven Run
 
-```json
-{
-    "id": 1,
-    "title" : "Postgre Fundamentals - New Edition",
-    "author" : "Ahmed",
-    "year": 2023,
-    "price": 12.35
-}
+- To run on single port / without additional ports
+
+```
+./mvnw spring-boot:run
 ```
 
-</td>
-<td style="vertical-align:text-top">
-Sample Response JSON
+- To run on multiple ports / use additional ports
+    - With default `8081` for books URLs, `8082` for user URLs
 
-```json
-{
-    "id": 1,
-    "title": "Postgre Fundamentals - New Edition",
-    "author": "Ahmed",
-    "year": 2023,
-    "price": 12.35
-}
 ```
-</td>
-</tr>
-</table>
-<br>
-<br>
-<br>
-<table>
-<tr>
-<td><b>Get All Books</b> - <code>HTTP GET</code></td>
-<td><a href="http://localhost:8080/api/v1/books">localhost:PORT/api/v1/books</a></td>
-</tr>
-<tr>
-<td style="vertical-align:text-top">
-No Request Body
-</td>
-<td style="vertical-align:text-top">
-Sample Response JSON
-
-```json
-[
-    {
-        "id": 1,
-        "title": "Postgre Fundamentals - New Edition",
-        "author": "Ahmed",
-        "year": 2023,
-        "price": 12.35
-    },
-    {
-        "id": 1,
-        "title": "Java Intro",
-        "author": "Ahmed 2",
-        "year": 2024,
-        "price": 56,78
-    }
-]
+./mvnw spring-boot:run -Dspring-boot.run.arguments="--fi.ishtech.practice.springboot.multiport.additional-ports=true"
 ```
-</td>
-</tr>
-</table>
-<br>
-<br>
-<br>
-<table>
-<tr>
-<td><b>Get Book by ID</b> - <code>HTTP GET</code></td>
-<td><a href="http://localhost:8080/api/v1/books/{bookId}">localhost:PORT/api/v1/books/{bookId}</a></td>
-</tr>
-<tr>
-<td style="vertical-align:text-top">
-Request Param: <code>bookId</code>
-</td>
-<td style="vertical-align:text-top">
-Sample Response JSON
 
-```json
-{
-	"id": 1,
-	"title": "Postgre Fundamentals - New Edition",
-	"author": "Ahmed",
-	"year": 2023,
-	"price": 12.35
-}
+- To run on multiple ports / use additional ports
+    - To use custom ports for books and user URLs
+
 ```
-Http Reponse code <code>404 - NOT_FOUND</code> - If no book exists by given id
+./mvnw spring-boot:run \
+  -Dspring-boot.run.arguments="\
+    --fi.ishtech.practice.springboot.multiport.additional-ports=true \
+    --fi.ishtech.practice.springboot.multiport.user-port=8282 \
+    --fi.ishtech.practice.springboot.multiport.book-port=8181"
+```
 
-</td>
-</tr>
-</table>
-<br>
-<br>
-<br>
-<table>
-<tr>
-<td><b>Delete Book by ID</b> - <code>HTTP DELETE</code></td>
-<td><a href="http://localhost:8080/api/v1/books/{bookId}">localhost:PORT/api/v1/books/{bookId}</a></td>
-</tr>
-<tr>
-<td style="vertical-align:text-top">
-Request Param: <code>bookId</code>
-</td>
-<td style="vertical-align:text-top">
-Http Reponse code <code>410 - GONE</code>  - for successfully deleting book in DB<br><br>
-Http Reponse code <code>404 - NOT_FOUND</code> - If no book exists by given id
 
-</td>
-</tr>
-</table>
-<br>
-<br>
-<br>
+
+### Docker
+
+#### Docker build
+
+```
+docker build . \
+  -t "muneer2ishtech/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout 2>/dev/null):$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)"
+```
+
+#### Run using docker image
+
+- Note: check and use version from pom.xml
+- Add option ` -d` if you want to run in background
+
+
+- To run on single port / without additional ports
+    - default port `8080`
+
+```
+docker run \
+  muneer2ishtech/ishtech-springboot-multi-port:x.y.z
+```
+
+- To run on multiple ports / use additional ports
+    - With default `8081` for books URLs, `8082` for user URLs
+
+```
+docker run \
+  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS=true \
+  muneer2ishtech/ishtech-springboot-multi-port:x.y.z
+```
+
+- To run on multiple ports / use additional ports
+    - To use custom ports for books and user URLs
+
+```
+docker run \
+  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS=true \
+  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK-PORT=8181 \
+  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER-PORT=8282 \
+  muneer2ishtech/ishtech-springboot-multi-port:x.y.z
+```

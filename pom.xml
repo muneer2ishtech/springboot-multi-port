@@ -8,15 +8,15 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.7</version>
+		<version>3.5.9</version>
 		<relativePath />
 	</parent>
 
 	<groupId>fi.ishtech.practice.springboot</groupId>
-	<artifactId>ishtech-springboot-multiport</artifactId>
-	<version>2.0.0</version>
+	<artifactId>ishtech-springboot-multi-port</artifactId>
+	<version>2.1.0</version>
 
-	<name>springboot-multiport</name>
+	<name>springboot-multi-port</name>
 	<description>Coding Exercise for having multiple ports on Spring Boot</description>
 
 	<licenses>
@@ -38,7 +38,7 @@
 	</developers>
 
 	<scm>
-		<url>https://github.com/muneer2ishtech/springboot-multiport</url>
+		<url>https://github.com/muneer2ishtech/springboot-multi-port</url>
 	</scm>
 
 	<properties>
@@ -47,9 +47,9 @@
 		<jjwt.version>0.13.0</jjwt.version>
 		<gson.version>2.13.2</gson.version>
 
-		<ishtech-springboot-jwtauth.version>0.5.0</ishtech-springboot-jwtauth.version>
+		<ishtech-springboot-jwtauth.version>1.0.0</ishtech-springboot-jwtauth.version>
 
-		<springdoc.version>2.8.13</springdoc.version>
+		<springdoc.version>2.8.15</springdoc.version>
 	</properties>
 
 	<dependencies>
@@ -76,7 +76,7 @@
 
 		<dependency>
 			<groupId>fi.ishtech.springboot</groupId>
-			<artifactId>ishtech-springboot-jwtauth-lib</artifactId>
+			<artifactId>ishtech-springboot-jwtauth-api</artifactId>
 			<version>${ishtech-springboot-jwtauth.version}</version>
 		</dependency>
 
