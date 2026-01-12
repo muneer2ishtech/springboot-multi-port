@@ -3,12 +3,16 @@ To run single spring-boot application on multiple ports at the same time
 
 ## Tech stack
 - Java: 25
-- Spring Boot: 3.5.7
+- Spring Boot: 3.5.9
+- Database: H2
+- Containerization: Docker
 
 ##
 
 [GIT](https://github.com/muneer2ishtech/springboot-multi-port)
 
+## Dependencies
+- [ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth) - For Authentiation & Authorization
 
 ## Ports
 
@@ -46,6 +50,8 @@ To run single spring-boot application on multiple ports at the same time
 - For Authentiation & Authorization APIs:
     - See [ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth)
 
+- For DB
+     - [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
 
 ## Build and Run
 
