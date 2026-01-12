@@ -9,7 +9,7 @@ ARG MAVEN_CLI_OPTS="-B -q -s .mvn/settings.xml"
 
 RUN chmod +x ./mvnw
 
-RUN ./mvnw $MAVEN_CLI_OPTS clean install -DskipTests=true
+RUN ./mvnw $MAVEN_CLI_OPTS clean package -DskipTests=true
 
 # ====== Stage 2: Runtime ======
 FROM eclipse-temurin:25-jre
