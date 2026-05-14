@@ -1,5 +1,5 @@
 # springboot-multi-port
-To run single spring-boot application on multiple ports at the same time
+Spring Boot application that can run on multiple ports at the same time
 
 ## Tech stack
 - Java: 25
@@ -11,8 +11,10 @@ To run single spring-boot application on multiple ports at the same time
 
 [GIT](https://github.com/muneer2ishtech/springboot-multi-port)
 
-## Dependencies
-- [ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth) - For Authentiation & Authorization
+
+## Design
+- [ishtech-jpa-base](https://github.com/ishtech/ishtech-base-jpa) - Foundational JPA and other base classes
+- [ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth) - For Authentication & Authorization
 
 ## Ports
 
@@ -27,31 +29,25 @@ To run single spring-boot application on multiple ports at the same time
 
 ## APIs
 
-| Module  | Type                | HTTP   | URL                                      |
-|---------|---------------------|--------|------------------------------------------|
-| API Doc | OpenAPI             | GET    | localhost:8080/api-docs                  |
-| API Doc | Swagger             | GET    | localhost:8080/swagger-ui.html           |
-| User    | Get User Details    | GET    | localhost:PORT1/api/v1/users/{userId}    |
-| User    | Update User Details | PUT    | localhost:PORT1/api/v1/users             |
-| Book    | Create Book         | POST   | localhost:PORT2/api/v1/books             |
-| Book    | Get All Books       | GET    | localhost:PORT2/api/v1/books             |
-| Book    | Update Book         | PUT    | localhost:PORT2/api/v1/books             |
-| Book    | Get Book by ID      | GET    | localhost:PORT2/api/v1/books/{bookId}    |
-| Book    | Delete Book By ID   | DELETE | localhost:PORT2/api/v1/books/{bookId}    |
-
 - For details you can see swagger documentation
     - [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
     - [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
+
 - Note: Check and update URI and PORT on which application is running
 
-- For API request/response samples:
+- For API names and descriptions:
     - See [API-INFO.md](./API-INFO.md)
 
-- For Authentiation & Authorization APIs:
-    - See [ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth)
+- For `curl` & `json` request/response samples:
+    - See [CURL-INFO.md](./CURL-INFO.md)
 
-- For DB
-     - [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+
+## DB
+
+### Local
+
+- [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+
 
 ## Build and Run
 
@@ -99,8 +95,6 @@ To run single spring-boot application on multiple ports at the same time
     --fi.ishtech.practice.springboot.multiport.book-port=8181"
 ```
 
-
-
 ### Docker
 
 #### Docker build
@@ -110,7 +104,7 @@ docker build . \
   -t "muneer2ishtech/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout 2>/dev/null):$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)"
 ```
 
-#### Run using docker image
+#### Run with docker image
 
 - Note: check and use version from pom.xml
 - Add option ` -d` if you want to run in background
