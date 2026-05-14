@@ -19,15 +19,16 @@ import lombok.extern.slf4j.Slf4j;
 // @formatter:off
 @SpringBootApplication(scanBasePackages = {
 		"fi.ishtech.springboot.jwtauth",
-		"fi.ishtech.practice.springboot.multiport"
+		"fi.ishtech.practice.springboot.multiport",
+		"fi.ishtech.practice.springboot.booksapp"
 })
 @EntityScan(basePackages = {
 		"fi.ishtech.springboot.jwtauth.entity",
-		"fi.ishtech.practice.springboot.multiport.entity"
+		"fi.ishtech.practice.springboot.booksapp.entity"
 })
 @EnableJpaRepositories(basePackages = {
 		"fi.ishtech.springboot.jwtauth.repo",
-		"fi.ishtech.practice.springboot.multiport.repository"
+		"fi.ishtech.practice.springboot.booksapp.repository"
 })
 // @formatter:on
 @Slf4j
