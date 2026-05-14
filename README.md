@@ -3,7 +3,7 @@ To run single spring-boot application on multiple ports at the same time
 
 ## Tech stack
 - Java: 25
-- Spring Boot: 3.5.9
+- Spring Boot: 4.0.x
 - Database: H2
 - Containerization: Docker
 
