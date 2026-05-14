@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -52,7 +52,7 @@ public class MultiportCodingExerciseApplication {
 
 		Connector[] additionalConnectors = additionalConnectors();
 		if (additionalConnectors != null && additionalConnectors.length != 0) {
-			tomcat.addAdditionalTomcatConnectors(additionalConnectors);
+			tomcat.addAdditionalConnectors(additionalConnectors);
 		}
 
 		return tomcat;
