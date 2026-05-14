@@ -1,18 +1,22 @@
 package fi.ishtech.practice.springboot.multiport.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
 
+import fi.ishtech.practice.springboot.multiport.dto.BookDto;
 import fi.ishtech.practice.springboot.multiport.entity.Book;
-import fi.ishtech.practice.springboot.multiport.repo.BookRepo;
+import fi.ishtech.practice.springboot.multiport.mapper.BookMapper;
+import fi.ishtech.practice.springboot.multiport.repository.BookRepository;
 import fi.ishtech.practice.springboot.multiport.service.BookService;
-import jakarta.persistence.EntityManager;
+import fi.ishtech.practice.springboot.multiport.spec.BookSpec;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -20,52 +24,77 @@ import lombok.extern.slf4j.Slf4j;
  * @author Muneer Ahmed Syed
  */
 @Service
-@Slf4j
 @Transactional
+@RequiredArgsConstructor
+@Validated
+@Slf4j
 public class BookServiceImpl implements BookService {
 
-	@Autowired
-	private BookRepo bookRepo;
-
-	@Autowired
-	private EntityManager entityManager;
+	private final BookRepository bookRepository;
+	private final BookMapper bookMapper;
 
 	@Override
-	public List<Book> findAll() {
-		return bookRepo.findAll();
+	public BookRepository getRepo() {
+		return bookRepository;
 	}
 
 	@Override
-	public Optional<Book> findById(Long id) {
-		return bookRepo.findById(id);
+	public BookMapper getMapper() {
+		return bookMapper;
 	}
 
 	@Override
-	public Book create(Book book) {
-		Assert.isNull(book.getId(), "Cannot set id for new Book");
-		Assert.hasText(book.getTitle(), "Title is mandatory");
-
-		book = bookRepo.saveAndFlush(book);
-		log.info("New Book({}) created for title: {}", book.getId(), book.getTitle());
-
-		return book;
+	@Transactional(readOnly = true)
+	public BookDto findOneByIdAndMapToVoOrElseThrow(Long id) {
+		return getMapper().toBriefDto(this.findOneByIdOrElseThrow(id));
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Book update(Book book) {
-		Assert.notNull(book.getId(), "Book id is mandatory to find and update details");
+	@Transactional(readOnly = true)
+	public Page<BookDto> findAllAndMapToVo(BookSpec spec, Pageable pageable) {
+		return this.findAll(spec, pageable).map(getMapper()::toBriefDto);
+	}
 
-		book = bookRepo.saveAndFlush(book);
-		entityManager.refresh(book);
+	@Override
+	@Transactional(readOnly = true)
+	public List<BookDto> findAllAndMapToVo() {
+		List<Book> books = this.findAll();
+
+		// @formatter:off
+		return books == null ? null
+				: books.stream()
+					.map(getMapper()::toBriefDto)
+					.toList();
+		// @formatter:on
+	}
+
+	@Override
+	public BookDto createAndMapToDto(BookDto bookDto) {
+		Book book = bookMapper.toNewEntity(bookDto);
+
+		book = bookRepository.save(book);
+		log.info("Created Book({})", book.getId());
+
+		return bookMapper.toBriefDto(book);
+	}
+
+	@Override
+	public BookDto updateByIdAndMapToDto(Long id, BookDto bookDto) {
+		Assert.isTrue(bookDto.getId() == null || id == bookDto.getId(), "Input id param not matching with id in DTO");
+
+		Book book = findOneByIdOrElseThrow(id);
+
+		bookMapper.toEntity(bookDto, book);
+
+		book = bookRepository.save(book);
 		log.info("Updated Book({})", book.getId());
 
-		return book;
+		return bookMapper.toBriefDto(book);
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		bookRepo.deleteById(id);
+		bookRepository.deleteById(id);
 		log.info("Deleted Book({})", id);
 	}
 
