@@ -7,9 +7,9 @@ import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.boot.web.server.servlet.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.util.Assert;
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 })
 @EnableJpaRepositories(basePackages = {
 		"fi.ishtech.springboot.jwtauth.repo",
-		"fi.ishtech.practice.springboot.multiport.repo"
+		"fi.ishtech.practice.springboot.multiport.repository"
 })
 // @formatter:on
 @Slf4j
