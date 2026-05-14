@@ -10,7 +10,7 @@ import jakarta.persistence.criteria.Root;
 import fi.ishtech.base.spec.BaseStandardSpec;
 import fi.ishtech.practice.springboot.booksapp.dto.BookFilterParams;
 import fi.ishtech.practice.springboot.booksapp.entity.Book;
-import fi.ishtech.practice.springboot.multiport.entity.Book_;
+import fi.ishtech.practice.springboot.booksapp.entity.Book_;
 
 /**
  * Specification for Book
