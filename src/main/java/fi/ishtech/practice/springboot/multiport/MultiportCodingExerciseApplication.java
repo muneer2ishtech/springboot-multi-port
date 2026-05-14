@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
 
 import lombok.extern.slf4j.Slf4j;
 
-//@formatter:off
+// @formatter:off
 @SpringBootApplication(scanBasePackages = {
 		"fi.ishtech.springboot.jwtauth",
 		"fi.ishtech.practice.springboot.multiport"
@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 		"fi.ishtech.springboot.jwtauth.repo",
 		"fi.ishtech.practice.springboot.multiport.repo"
 })
-//@formatter:on
+// @formatter:on
 @Slf4j
 public class MultiportCodingExerciseApplication {
 
