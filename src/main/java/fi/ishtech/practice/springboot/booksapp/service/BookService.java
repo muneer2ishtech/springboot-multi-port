@@ -1,4 +1,4 @@
-package fi.ishtech.practice.springboot.multiport.service;
+package fi.ishtech.practice.springboot.booksapp.service;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import fi.ishtech.base.service.BaseStandardService;
-import fi.ishtech.practice.springboot.multiport.dto.BookDto;
-import fi.ishtech.practice.springboot.multiport.entity.Book;
-import fi.ishtech.practice.springboot.multiport.spec.BookSpec;
+import fi.ishtech.practice.springboot.booksapp.dto.BookDto;
+import fi.ishtech.practice.springboot.booksapp.entity.Book;
+import fi.ishtech.practice.springboot.booksapp.spec.BookSpec;
 
 /**
  * Service interface for Book related operations

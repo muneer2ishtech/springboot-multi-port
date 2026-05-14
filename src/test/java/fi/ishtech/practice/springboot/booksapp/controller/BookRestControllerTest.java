@@ -1,4 +1,4 @@
-package fi.ishtech.practice.springboot.multiport.controller;
+package fi.ishtech.practice.springboot.booksapp.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.google.gson.Gson;
 
-import fi.ishtech.practice.springboot.multiport.entity.Book;
+import fi.ishtech.practice.springboot.booksapp.entity.Book;
 import lombok.extern.slf4j.Slf4j;
 
 /**

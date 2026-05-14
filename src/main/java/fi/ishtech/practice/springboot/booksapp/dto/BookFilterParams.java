@@ -1,4 +1,4 @@
-package fi.ishtech.practice.springboot.multiport.dto;
+package fi.ishtech.practice.springboot.booksapp.dto;
 
 import java.io.Serial;
 import java.math.BigDecimal;

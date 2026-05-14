@@ -1,4 +1,4 @@
-package fi.ishtech.practice.springboot.multiport.controller;
+package fi.ishtech.practice.springboot.booksapp.controller;
 
 import java.net.URI;
 
@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import fi.ishtech.practice.springboot.multiport.dto.BookDto;
-import fi.ishtech.practice.springboot.multiport.dto.BookFilterParams;
-import fi.ishtech.practice.springboot.multiport.service.BookService;
-import fi.ishtech.practice.springboot.multiport.spec.BookSpec;
+import fi.ishtech.practice.springboot.booksapp.dto.BookDto;
+import fi.ishtech.practice.springboot.booksapp.dto.BookFilterParams;
+import fi.ishtech.practice.springboot.booksapp.service.BookService;
+import fi.ishtech.practice.springboot.booksapp.spec.BookSpec;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
