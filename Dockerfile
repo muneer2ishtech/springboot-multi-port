@@ -8,7 +8,6 @@ COPY . .
 ARG MAVEN_CLI_OPTS="-B -q -s .mvn/settings.xml"
 
 RUN chmod +x ./mvnw
-RUN echo $(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null) > .projectVersion
 
 RUN ./mvnw $MAVEN_CLI_OPTS clean package -DskipTests=true
 
@@ -17,19 +16,21 @@ FROM eclipse-temurin:25-jre
 
 WORKDIR /app
 
-COPY --from=build /app/.projectVersion .projectVersion
+COPY --from=build /app/target/ishtech-springboot-multi-port-*.jar ishtech-springboot-multi-port.jar
 
-RUN export APP_VERSION=$(cat .projectVersion)
-
+# For building image with custom ports and properties
 ARG SERVER_PORT=8080
 ARG FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK_PORT=8081
 ARG FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER_PORT=8082
 ARG FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS=false
 
-EXPOSE ${SERVER_PORT:-8080}
+ENV SERVER_PORT=${SERVER_PORT}
+ENV FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK_PORT=${FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK_PORT}
+ENV FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER_PORT=${FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER_PORT}
+ENV FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS=${FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS}
+
+EXPOSE ${SERVER_PORT}
 EXPOSE ${FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK_PORT}
 EXPOSE ${FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER_PORT}
-
-COPY --from=build /app/target/ishtech-springboot-multi-port-${APP_VERSION-*}.jar ishtech-springboot-multi-port.jar
 
 ENTRYPOINT ["java", "-jar", "ishtech-springboot-multi-port.jar"]

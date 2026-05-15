@@ -32,6 +32,7 @@ Spring Boot application that can run on multiple ports at the same time
 - For details you can see swagger documentation
     - [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
     - [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
+    - [http://localhost:8080/v3/api-docs.yaml](http://localhost:8080/v3//v3/api-docs.yaml)
 
 - Note: Check and update URI and PORT on which application is running
 
@@ -78,14 +79,14 @@ Spring Boot application that can run on multiple ports at the same time
 ```
 
 - To run on multiple ports / use additional ports
-    - With default `8081` for books URLs, `8082` for user URLs
+    - With default `8081` for books APIs, `8082` for user APIs
 
 ```
 ./mvnw spring-boot:run -Dspring-boot.run.arguments="--fi.ishtech.practice.springboot.multiport.additional-ports=true"
 ```
 
 - To run on multiple ports / use additional ports
-    - To use custom ports for books and user URLs
+    - To use custom ports for books and user APIs
 
 ```
 ./mvnw spring-boot:run \
@@ -111,29 +112,66 @@ docker build . \
 
 
 - To run on single port / without additional ports
-    - default port `8080`
+
+```
+docker run -p 8080:8080 muneer2ishtech/ishtech-springboot-multi-port:x.y.z
+```
+
+- To run on multiple ports / use additional ports
+    - With default `8081` for books APIs, `8082` for user APIs
 
 ```
 docker run \
+  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS=true \
+  -p 8080:8080 \
+  -p 8081:8082 \
+  -p 8081:8082 \
   muneer2ishtech/ishtech-springboot-multi-port:x.y.z
 ```
 
 - To run on multiple ports / use additional ports
-    - With default `8081` for books URLs, `8082` for user URLs
+    - To use custom ports for books and user APIs
 
 ```
 docker run \
-  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS=true \
+  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS=true \
+  -p 8180:8080 \
+  -p 8181:8081 \
+  -p 8182:8082 \
   muneer2ishtech/ishtech-springboot-multi-port:x.y.z
 ```
 
-- To run on multiple ports / use additional ports
-    - To use custom ports for books and user URLs
+#### Run with docker compose
+
+- Docker compose is self contained, so  you don't need anything else other than docker
+
+- To stop if running
+    - `docker compose stop`
+
+- To stop and remove including volumes and built images
+    - `docker compose down -v --rmi=local`
+
+- To build and start with default settings
 
 ```
-docker run \
-  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS=true \
-  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK-PORT=8181 \
-  -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER-PORT=8282 \
-  muneer2ishtech/ishtech-springboot-multi-port:x.y.z
+docker compose up --build
+
+```
+
+- To build and start with custom settings
+    - You can prefix with env vars as in below example
+    - Below args are optional, you can change to desired value or skip, if skipped they will use default value
+        - `SERVER_PORT` if skipped spring-boot app will be exposed on default `8080`
+        - `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK_PORT` if skipped books APIs will be exposed on default `8081` \`
+        - `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER_PORT` if skipped user APIs will be exposed on default `8082`
+        - `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS` if skipped defaults to `false`
+
+```
+SERVER_PORT=8180 \
+FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS=true \
+FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK_PORT=8181 \
+FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER_PORT=8182 \
+APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null) \
+docker compose up --build
+
 ```
