@@ -1,36 +1,72 @@
-# see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+# Build, test a Maven project and release as Docker image.
+## see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
 
 name: Java CI with Maven and Docker
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['**']
+
+  release:
+    types: [published]
+
+  workflow_dispatch:
+    inputs:
+      manual_deploy:
+        description: "Trigger manual deployment"
+        required: true
+        type: choice
+        options:
+          - "false"
+          - "true"
+        default: "false"
 
 jobs:
-  build:
+  maven-docker-build:
     runs-on: ubuntu-latest
 
+    env:
+      MAVEN_CLI_OPTS: "-B -q -s .mvn/settings.xml"
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    - name: Set up JDK 25
-      uses: actions/setup-java@v4
-      with:
-        java-version: '25'
-        distribution: 'temurin'
-        cache: maven
+      - name: Set up JDK 25 + Maven cache
+        uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
 
-    - name: Extract Maven project version
-      id: project-version
-      run: |
-        echo "project_version=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)" \
-          >> $GITHUB_OUTPUT
+      # 1. Project Version
+      - name: Extract Maven Project Version
+        id: project-version
+        run: |
+          echo "project_version=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)" \
+            >> $GITHUB_OUTPUT
 
-    - name: Build with Maven
-      run: ./mvnw -B package -DskipTests=true
+      # 2. Compile
+      - name: Maven Compile
+        run: ./mvnw $MAVEN_CLI_OPTS clean compile
 
-    - name: Build the Docker image
-      run: |
-        docker build . --file Dockerfile \
-         --tag muneer2ishtech/ishtech-springboot-multi-port:${{ steps.project-version.outputs.project_version }}
+      # 3. Test
+      - name: Maven Test
+        run: ./mvnw $MAVEN_CLI_OPTS test -Dmaven.main.skip=true
+
+      # 4. Release (only when conditions match)
+      - name: Login to Docker Hub
+        if: github.event_name == 'release' || github.event.inputs.manual_deploy == 'true'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push Docker image
+        if: github.event_name == 'release' || github.event.inputs.manual_deploy == 'true'
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: muneer2ishtech/ishtech-springboot-multi-port:${{ steps.project-version.outputs.project_version }}
