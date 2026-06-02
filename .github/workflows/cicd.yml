@@ -6,10 +6,10 @@ name: Java CI with Maven and Docker
 
 on:
   push:
-    branches: ['**']
-
-  release:
-    types: [published]
+    branches:
+      - '**'
+    tags:
+      - 'v*'
 
   workflow_dispatch:
     inputs:
@@ -44,7 +44,6 @@ jobs:
       - name: Validate Project Version
         id: validate-project-version
         env:
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
           MANUAL_DEPLOY: ${{ inputs.manual_deploy }}
         run: |
           chmod +x mvnw
@@ -53,13 +52,13 @@ jobs:
           echo "Event=$GITHUB_EVENT_NAME  Ref=$GITHUB_REF_NAME ($GITHUB_REF_TYPE)  Version=$APP_VERSION"
 
           # ---------- RELEASE RULE ----------
-          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
             if [[ "$APP_VERSION" == *-SNAPSHOT ]]; then
-              echo "❌ ERROR: Release version cannot be SNAPSHOT. Found: $APP_VERSION"
+              echo "❌ ERROR: Tagged version cannot be SNAPSHOT. Found: $APP_VERSION"
               exit 1
             fi
-            if [[ "${RELEASE_TAG#v}" != "$APP_VERSION" ]]; then
-              echo "❌ ERROR: Tag ($RELEASE_TAG) does NOT match pom version ($APP_VERSION)"
+            if [[ "${GITHUB_REF_NAME#v}" != "$APP_VERSION" ]]; then
+              echo "❌ ERROR: Tag ($GITHUB_REF_NAME) does NOT match pom version ($APP_VERSION)"
               exit 1
             fi
 
@@ -73,7 +72,7 @@ jobs:
                 exit 1
               fi
               if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "$MANUAL_DEPLOY" == "true" ]]; then
-                echo "❌ ERROR: main can only be released via a published release tag, not manual deploy."
+                echo "❌ ERROR: main can only be released via version tag, not manual deploy."
                 exit 1
               fi
 
@@ -88,7 +87,7 @@ jobs:
 
           # Decide whether this run releases
           DO_RELEASE=false
-          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
             DO_RELEASE=true
           elif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "$MANUAL_DEPLOY" == "true" && "$GITHUB_REF_NAME" != "main" ]]; then
             DO_RELEASE=true
