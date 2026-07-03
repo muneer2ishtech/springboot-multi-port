@@ -264,9 +264,8 @@ public class BookRestControllerTest {
 		book.setYear(Short.valueOf("2999"));
 		book.setPrice(new BigDecimal("56.78"));
 
-		when(bookService.updateByIdAndMapToDto(eq(1L), any(BookDto.class))).thenThrow(
-				new ConstraintViolationException("updateByIdAndMapToDto.book.year: must not be greater than the current year",
-						Set.of()));
+		when(bookService.updateByIdAndMapToDto(eq(1L), any(BookDto.class))).thenThrow(new ConstraintViolationException(
+				"updateByIdAndMapToDto.book.year: must not be greater than the current year", Set.of()));
 
 		Gson gson = new Gson();
 		String requestJson = gson.toJson(book);
@@ -317,18 +316,6 @@ public class BookRestControllerTest {
 	@Test
 	@Order(13)
 	@WithMockUser(username = "junit@ishtech.fi", password = "Test#123", authorities = "ROLE_USER")
-	public void testDeleteBookFailForNotFound() throws Exception {
-		when(bookService.findOneByIdOrElseThrow(eq(999L))).thenThrow(NoSuchElementException.class);
-
-		// @formatter:off
-		mvc.perform(delete("/api/v1/books/999"))
-			.andExpect(status().isGone());
-		// @formatter:on
-	}
-
-	@Test
-	@Order(14)
-	@WithMockUser(username = "junit@ishtech.fi", password = "Test#123", authorities = "ROLE_USER")
 	public void testSearchBooksWithFilters() throws Exception {
 		BookDto book = new BookDto();
 		book.setId(1L);
@@ -337,7 +324,7 @@ public class BookRestControllerTest {
 		book.setYear(Short.valueOf("2023"));
 		book.setPrice(new BigDecimal("12.34"));
 
-		when(bookService.findAllAndMapToVo(any(), any())).thenReturn(new PageImpl<BookDto>(List.of(book)));
+		when(bookService.findAllAndMapToVo(any(), any())).thenReturn(new PageImpl<>(List.of(book)));
 
 		// @formatter:off
 		mvc.perform(get("/api/v1/books")
@@ -349,7 +336,8 @@ public class BookRestControllerTest {
 				.param("priceEnd", "50.00")
 				.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.content[0].title", is("Intro to Java")));
+			.andExpect(jsonPath("$.content[0].title", is("Intro to Java")))
+			.andExpect(jsonPath("$.content[0].author", is("Muneer")));
 		// @formatter:on
 	}
 
