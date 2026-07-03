@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        SERVER_PORT: ${SERVER_PORT:-8080}
     image: muneer2ishtech/ishtech-springboot-multi-port${APP_VERSION:+:$APP_VERSION}
     container_name: ishtech_springboot_multi_port
     environment:
