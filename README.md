@@ -50,6 +50,10 @@ Spring Boot application that can run on multiple ports at the same time
 - [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
 
 
+## Known Issues
+- See [KNOWN-ISSUES.md](./KNOWN-ISSUES.md)
+
+
 ## Build and Run
 
 - Ensure the port, db properties etc are correct in application-xxx.properties
