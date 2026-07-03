@@ -3,7 +3,9 @@ package fi.ishtech.practice.springboot.booksapp.controller;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -246,6 +248,80 @@ public class BookRestControllerTest {
  				.contentType(MediaType.APPLICATION_JSON)
  				.content(requestJson))
  			.andExpect(status().isBadRequest());
+		// @formatter:on
+	}
+
+	@Test
+	@Order(10)
+	@WithMockUser(username = "junit@ishtech.fi", password = "Test#123", authorities = "ROLE_USER")
+	public void testUpdateBookFailForNotFound() throws Exception {
+		BookDto book = new BookDto();
+		book.setTitle("Intro to Java");
+		book.setAuthor("Muneer");
+		book.setYear(Short.valueOf("2023"));
+		book.setPrice(new BigDecimal("56.78"));
+
+		when(bookService.updateByIdAndMapToDto(eq(999L), any(BookDto.class))).thenThrow(NoSuchElementException.class);
+
+		Gson gson = new Gson();
+		String requestJson = gson.toJson(book);
+
+		// @formatter:off
+		mvc.perform(put("/api/v1/books/999")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestJson))
+			.andExpect(status().isNotFound());
+		// @formatter:on
+	}
+
+	@Test
+	@Order(11)
+	@WithMockUser(username = "junit@ishtech.fi", password = "Test#123", authorities = "ROLE_USER")
+	public void testDeleteBookSuccess() throws Exception {
+		doNothing().when(bookService).deleteById(eq(1L));
+
+		// @formatter:off
+		mvc.perform(delete("/api/v1/books/1"))
+			.andExpect(status().isGone());
+		// @formatter:on
+	}
+
+	@Test
+	@Order(12)
+	@WithMockUser(username = "junit@ishtech.fi", password = "Test#123", authorities = "ROLE_USER")
+	public void testDeleteBookFailForNotFound() throws Exception {
+		when(bookService.findOneByIdOrElseThrow(eq(999L))).thenThrow(NoSuchElementException.class);
+
+		// @formatter:off
+		mvc.perform(delete("/api/v1/books/999"))
+			.andExpect(status().isGone());
+		// @formatter:on
+	}
+
+	@Test
+	@Order(13)
+	@WithMockUser(username = "junit@ishtech.fi", password = "Test#123", authorities = "ROLE_USER")
+	public void testSearchBooksWithFilters() throws Exception {
+		BookDto book = new BookDto();
+		book.setId(1L);
+		book.setTitle("Intro to Java");
+		book.setAuthor("Muneer");
+		book.setYear(Short.valueOf("2023"));
+		book.setPrice(new BigDecimal("12.34"));
+
+		when(bookService.findAllAndMapToVo(any(), any())).thenReturn(new PageImpl<BookDto>(List.of(book)));
+
+		// @formatter:off
+		mvc.perform(get("/api/v1/books")
+				.param("title", "Intro to Java")
+				.param("author", "Muneer")
+				.param("yearStart", "2020")
+				.param("yearEnd", "2025")
+				.param("priceStart", "10.00")
+				.param("priceEnd", "50.00")
+				.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.content[0].title", is("Intro to Java")));
 		// @formatter:on
 	}
 
