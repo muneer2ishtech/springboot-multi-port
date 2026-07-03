@@ -58,7 +58,7 @@ public class BookRestController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<BookDto> create(@RequestBody @Valid BookDto bookDto) {
 		BookDto newBookDto = bookService.createAndMapToDto(bookDto);
-		log.debug("Updated Book({})", newBookDto.getId());
+		log.debug("Created Book({})", newBookDto.getId());
 
 		// @formatter:off
 		URI uri = ServletUriComponentsBuilder

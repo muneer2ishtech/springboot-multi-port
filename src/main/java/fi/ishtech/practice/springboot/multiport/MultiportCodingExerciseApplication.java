@@ -60,11 +60,11 @@ public class MultiportCodingExerciseApplication {
 	}
 
 	private Connector[] additionalConnectors() {
-		log.info("addtionalPorts:{}", this.additionalPorts);
+		log.info("additionalPorts:{}", this.additionalPorts);
 
 		if (this.additionalPorts) {
-			Assert.state(this.userPort != null, "Port for '**/users/**' canot be null");
-			Assert.state(this.bookPort != null, "Port for '**/books/**' canot be null");
+			Assert.state(this.userPort != null, "Port for '**/users/**' cannot be null");
+			Assert.state(this.bookPort != null, "Port for '**/books/**' cannot be null");
 
 			log.info("PORT for **/users/**:{}", this.userPort);
 			log.info("PORT for **/books/**:{}", this.bookPort);
