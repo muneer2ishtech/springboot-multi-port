@@ -45,6 +45,7 @@
 		<java.version>25</java.version>
 
 		<ishtech-springboot-jwtauth.version>3.2.1</ishtech-springboot-jwtauth.version>
+		<ishtech-validations.version>0.1.0-SNAPSHOT</ishtech-validations.version>
 
 		<jjwt.version>0.13.0</jjwt.version>
 		<mapstruct.version>1.6.3</mapstruct.version>
@@ -59,6 +60,11 @@
 			<groupId>fi.ishtech.springboot</groupId>
 			<artifactId>ishtech-springboot-jwtauth-api</artifactId>
 			<version>${ishtech-springboot-jwtauth.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>fi.ishtech.common</groupId>
+			<artifactId>ishtech-validations</artifactId>
+			<version>${ishtech-validations.version}</version>
 		</dependency>
 
 		<dependency>

@@ -4,6 +4,7 @@ import java.io.Serial;
 import java.math.BigDecimal;
 
 import fi.ishtech.base.vo.BaseStandardEntityVo;
+import fi.ishtech.common.validation.constraints.MaxCurrentYear;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -33,6 +34,7 @@ public class BookDto extends BaseStandardEntityVo {
 	private String author;
 
 	@Min(1900)
+	@MaxCurrentYear
 	private Short year;
 
 	@Positive
