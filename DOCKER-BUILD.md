@@ -27,8 +27,8 @@ docker run -p 8080:8080 muneer2ishtech/ishtech-springboot-multi-port:x.y.z
 docker run \
   -e FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS=true \
   -p 8080:8080 \
-  -p 8081:8082 \
-  -p 8081:8082 \
+  -p 8081:8081 \
+  -p 8082:8082 \
   muneer2ishtech/ishtech-springboot-multi-port:x.y.z
 ```
 
@@ -64,8 +64,9 @@ docker compose up --build
 - To build and start with custom settings
     - You can prefix with env vars as in below example
     - Below args are optional, you can change to desired value or skip, if skipped they will use default value
-        - `SERVER_PORT` if skipped spring-boot app will be exposed on default `8080`
-        - `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK_PORT` if skipped books APIs will be exposed on default `8081` \`
+        - `SERVER_PORT` if skipped spring-boot app will run on default `8080` inside container
+        - `SERVER_PORT_LOCAL` if skipped spring-boot app will be exposed on host using `SERVER_PORT` value
+        - `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK_PORT` if skipped books APIs will be exposed on default `8081`
         - `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER_PORT` if skipped user APIs will be exposed on default `8082`
         - `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS` if skipped defaults to `false`
 
