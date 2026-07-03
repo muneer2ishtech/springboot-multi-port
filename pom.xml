@@ -14,7 +14,7 @@
 
 	<groupId>fi.ishtech.practice.springboot</groupId>
 	<artifactId>ishtech-springboot-multi-port</artifactId>
-	<version>3.0.0</version>
+	<version>3.1.0-SNAPSHOT</version>
 
 	<name>springboot-multi-port</name>
 	<description>Coding Exercise for having multiple ports on Spring Boot</description>
