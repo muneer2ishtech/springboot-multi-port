@@ -1,38 +1,29 @@
-package fi.ishtech.practice.springboot.multiport.entity;
+package fi.ishtech.practice.springboot.booksapp.entity;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.math.BigDecimal;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
+import fi.ishtech.base.entity.BaseStandardEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "t_book",
 		uniqueConstraints = @UniqueConstraint(name = "uk_book_title_author", columnNames = { "title", "author" }))
-@DynamicInsert
-@DynamicUpdate
 @Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @NoArgsConstructor
-public class Book implements Serializable {
+public class Book extends BaseStandardEntity {
 
 	@Serial
-	private static final long serialVersionUID = -4073976845697599055L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false, updatable = false)
-	private Long id;
+	private static final long serialVersionUID = -7930169589351866235L;
 
 	@Column(nullable = false, length = 255)
 	private String title;

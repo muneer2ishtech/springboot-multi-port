@@ -7,29 +7,30 @@ import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.boot.persistence.autoconfigure.EntityScan;
+import org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.servlet.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.util.Assert;
 
 import lombok.extern.slf4j.Slf4j;
 
-//@formatter:off
+// @formatter:off
 @SpringBootApplication(scanBasePackages = {
 		"fi.ishtech.springboot.jwtauth",
-		"fi.ishtech.practice.springboot.multiport"
+		"fi.ishtech.practice.springboot.multiport",
+		"fi.ishtech.practice.springboot.booksapp"
 })
 @EntityScan(basePackages = {
 		"fi.ishtech.springboot.jwtauth.entity",
-		"fi.ishtech.practice.springboot.multiport.entity"
+		"fi.ishtech.practice.springboot.booksapp.entity"
 })
 @EnableJpaRepositories(basePackages = {
 		"fi.ishtech.springboot.jwtauth.repo",
-		"fi.ishtech.practice.springboot.multiport.repo"
+		"fi.ishtech.practice.springboot.booksapp.repository"
 })
-//@formatter:on
+// @formatter:on
 @Slf4j
 public class MultiportCodingExerciseApplication {
 
@@ -52,18 +53,18 @@ public class MultiportCodingExerciseApplication {
 
 		Connector[] additionalConnectors = additionalConnectors();
 		if (additionalConnectors != null && additionalConnectors.length != 0) {
-			tomcat.addAdditionalTomcatConnectors(additionalConnectors);
+			tomcat.addAdditionalConnectors(additionalConnectors);
 		}
 
 		return tomcat;
 	}
 
 	private Connector[] additionalConnectors() {
-		log.info("addtionalPorts:{}", this.additionalPorts);
+		log.info("additionalPorts:{}", this.additionalPorts);
 
 		if (this.additionalPorts) {
-			Assert.state(this.userPort != null, "Port for '**/users/**' canot be null");
-			Assert.state(this.bookPort != null, "Port for '**/books/**' canot be null");
+			Assert.state(this.userPort != null, "Port for '**/users/**' cannot be null");
+			Assert.state(this.bookPort != null, "Port for '**/books/**' cannot be null");
 
 			log.info("PORT for **/users/**:{}", this.userPort);
 			log.info("PORT for **/books/**:{}", this.bookPort);

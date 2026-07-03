@@ -2,7 +2,7 @@ package fi.ishtech.practice.springboot.multiport;
 
 import java.io.IOException;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -42,11 +42,11 @@ public class PortFilter implements Filter {
 		log.debug("PORT:{}, URI:{}", req.getLocalPort(), req.getRequestURI());
 
 		if (this.additionalPorts) {
-			if (StringUtils.containsIgnoreCase(req.getRequestURI(), "/books")) {
+			if (Strings.CI.contains(req.getRequestURI(), "/books")) {
 				Assert.isTrue(this.bookPort == req.getLocalPort(),
 						"Invalid Port " + req.getLocalPort() + ", use " + this.bookPort);
 			}
-			if (StringUtils.containsIgnoreCase(req.getRequestURI(), "/users")) {
+			if (Strings.CI.contains(req.getRequestURI(), "/users")) {
 				Assert.isTrue(this.userPort == req.getLocalPort(),
 						"Invalid Port " + req.getLocalPort() + ", use " + this.userPort);
 			}
