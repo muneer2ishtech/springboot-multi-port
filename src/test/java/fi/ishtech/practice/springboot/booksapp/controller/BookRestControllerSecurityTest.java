@@ -10,14 +10,14 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import fi.ishtech.practice.springboot.multiport.MultiportCodingExerciseApplication;
+import fi.ishtech.practice.springboot.multiport.MultiportApplication;
 
 /**
  * Security tests for BookRestController — verifies 401 responses when no auth token is provided.
  *
  * @author Muneer Ahmed Syed
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = MultiportCodingExerciseApplication.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = MultiportApplication.class)
 @AutoConfigureMockMvc
 public class BookRestControllerSecurityTest {
 

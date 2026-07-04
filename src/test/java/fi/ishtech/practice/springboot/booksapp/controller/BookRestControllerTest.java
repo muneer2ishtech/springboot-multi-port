@@ -38,14 +38,14 @@ import com.google.gson.Gson;
 import fi.ishtech.practice.springboot.booksapp.dto.BookDto;
 import fi.ishtech.practice.springboot.booksapp.entity.Book;
 import fi.ishtech.practice.springboot.booksapp.service.BookService;
-import fi.ishtech.practice.springboot.multiport.MultiportCodingExerciseApplication;
+import fi.ishtech.practice.springboot.multiport.MultiportApplication;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author Muneer Ahmed Syed
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = MultiportCodingExerciseApplication.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = MultiportApplication.class)
 @AutoConfigureMockMvc(addFilters = false)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Slf4j
