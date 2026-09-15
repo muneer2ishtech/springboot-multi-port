@@ -14,7 +14,7 @@
 
 	<groupId>fi.ishtech.practice.springboot</groupId>
 	<artifactId>ishtech-springboot-multi-port</artifactId>
-	<version>3.1.0-SNAPSHOT</version>
+	<version>3.1.0-jdk21-SNAPSHOT</version>
 
 	<name>springboot-multi-port</name>
 	<description>Coding Exercise for having multiple ports on Spring Boot</description>
@@ -42,10 +42,10 @@
 	</scm>
 
 	<properties>
-		<java.version>25</java.version>
+		<java.version>21</java.version>
 
-		<ishtech-springboot-jwtauth.version>3.3.0-SNAPSHOT</ishtech-springboot-jwtauth.version>
-		<ishtech-validations.version>0.1.0-SNAPSHOT</ishtech-validations.version>
+		<ishtech-springboot-jwtauth.version>3.3.0-jdk21-SNAPSHOT</ishtech-springboot-jwtauth.version>
+		<ishtech-validations.version>0.1.0-jdk21-SNAPSHOT</ishtech-validations.version>
 
 		<jjwt.version>0.13.0</jjwt.version>
 		<mapstruct.version>1.6.3</mapstruct.version>
