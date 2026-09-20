@@ -70,6 +70,7 @@ docker compose up --build
         - `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER_PORT` if skipped user APIs will be exposed on default `8082`
         - `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS` if skipped defaults to `false`
         - `APP_VERSION` is the tag of the built image, as `muneer2ishtech/ishtech-springboot-multi-port:$APP_VERSION`, if skipped the image is tagged `muneer2ishtech/ishtech-springboot-multi-port:latest`
+    - Suggested: append `-local` to `APP_VERSION` when building locally, so a locally built image is not confused with, and does not overwrite, the same tag pulled from Docker Hub
 
 ```
 SERVER_PORT=8180 \
@@ -77,6 +78,18 @@ FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS=true \
 FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK_PORT=8181 \
 FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER_PORT=8182 \
 APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null) \
+docker compose up --build
+
+```
+
+- Same, tagging the locally built image with a `-local` suffix
+
+```
+SERVER_PORT=8180 \
+FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS=true \
+FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK_PORT=8181 \
+FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER_PORT=8182 \
+APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)-local \
 docker compose up --build
 
 ```
