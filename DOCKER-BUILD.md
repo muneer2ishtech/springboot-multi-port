@@ -69,6 +69,7 @@ docker compose up --build
         - `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_BOOK_PORT` if skipped books APIs will be exposed on default `8081`
         - `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_USER_PORT` if skipped user APIs will be exposed on default `8082`
         - `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL_PORTS` if skipped defaults to `false`
+        - `APP_VERSION` is the tag of the built image, as `muneer2ishtech/ishtech-springboot-multi-port:$APP_VERSION`, if skipped the image is tagged `muneer2ishtech/ishtech-springboot-multi-port:latest`
 
 ```
 SERVER_PORT=8180 \
