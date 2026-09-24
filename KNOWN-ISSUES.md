@@ -35,3 +35,13 @@ Actual: `500`, body contains `"Invalid Port 8080, use 8081"` and a full Java sta
 1. In `PortFilter`, reject wrong-port requests by writing a clean error response directly (or by throwing something mapped to `404` by an `@ExceptionHandler`) instead of letting `IllegalArgumentException` propagate.
 2. Add tests for `PortFilter`: correct port allowed, wrong port rejected with the new clean status code, other endpoints (e.g. `/api/v1/auth/**`) unaffected by the restriction.
 3. Once fixed, document the expected wrong-port response in `README.md` or `CURL-INFO.md`.
+
+---
+
+## 2. A GitHub release with a JDK-variant tag (`vx.y.z-jdkNN`) doesn't publish a Docker image
+
+**Status:** Open. Recorded in full in springboot-books-app: [`KNOWN-ISSUES.md`, issue 1](https://github.com/muneer2ishtech/springboot-books-app/blob/dev/KNOWN-ISSUES.md).
+**Impact:** Medium — a JDK-variant release publishes no Docker image, and nothing fails visibly.
+**Affects:** `.github/workflows/cicd.yml`, trigger `on.push.tags: ['v[0-9]+.[0-9]+.[0-9]+']`, the same as in springboot-books-app.
+
+The description, steps to reproduce, likely cause and suggested fix are in the linked entry; apply the same fix here, and verify it as described there, with this repo's image.
