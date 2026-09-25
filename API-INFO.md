@@ -23,7 +23,7 @@
 | Book   | Get Book by ID    | GET    | /api/v1/books/{id} | Retrieves a book by its ID |
 | Book   | Search/List Books | GET    | /api/v1/books      | Retrieves paginated list of books with filters |
 | Book   | Update Book       | PUT    | /api/v1/books/{id} | Updates an existing book by ID |
-| Book   | Delete Book       | DELETE | /api/v1/books/{id} | Deletes a book (returns 410 Gone) |
+| Book   | Delete Book       | DELETE | /api/v1/books/{id} | Deletes a book (returns 410 Gone, also if the book does not exist, as delete is idempotent) |
 
 
 - For `curl` & `json` request/response samples:
