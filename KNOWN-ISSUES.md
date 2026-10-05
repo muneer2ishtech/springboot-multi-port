@@ -45,3 +45,11 @@ Actual: `500`, body contains `"Invalid Port 8080, use 8081"` and a full Java sta
 **Affects:** `.github/workflows/cicd.yml`, trigger `on.push.tags: ['v[0-9]+.[0-9]+.[0-9]+']`, the same as in springboot-books-app.
 
 The description, steps to reproduce, likely cause and suggested fix are in the linked entry; apply the same fix here, and verify it as described there, with this repo's image.
+
+---
+
+## 3. `PUT /api/v1/users/{userId}` clears fields absent from the request body
+
+See ishtech-springboot-jwtauth [`KNOWN-ISSUES.md`, issue 1](https://github.com/IshTech/ishtech-springboot-jwtauth/blob/dev/KNOWN-ISSUES.md).
+
+In this application the update fails with `500` instead of the silent `200` described there: H2 rejects the cleared `default_lang` (`NULL not allowed for column "DEFAULT_LANG"`).
