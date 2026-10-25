@@ -1,6 +1,17 @@
 #
 
 - Check [Ports section in README.md](./README.md#ports) and use the correct port for the API calls.
+    - With additional ports, a Books or Users API called on the wrong port returns `400 - Bad Request`:
+
+```json
+{
+    "timestamp": "2026-10-25T10:27:53.874Z",
+    "status": 400,
+    "error": "Bad Request",
+    "message": "Invalid Port 8080, use 8081",
+    "path": "/api/v1/books"
+}
+```
 
 - For API names and descriptions:
     - See [API-INFO.md](./API-INFO.md)
