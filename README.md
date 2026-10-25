@@ -30,6 +30,8 @@ Which application version (Docker image tag) to use for your JDK version: [JDK-V
 - If application property `fi.ishtech.practice.springboot.multiport.additional-ports` or environment variable `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS` is set to `true`
     - PORT for `**/users/**` is `8082`
     - PORT for `**/books/**` is `8081`
+    - Calling them on any other port returns `400 - Bad Request`, see [CURL-INFO.md](./CURL-INFO.md)
+    - All other URLs (e.g. `/api/v1/auth/**`, `/actuator/**`) are not restricted and work on every port
 - By default additional-ports is set to `false`, i.e. all API URLs use only `8080` port
 
 
