@@ -32,10 +32,10 @@ import lombok.extern.slf4j.Slf4j;
 })
 // @formatter:on
 @Slf4j
-public class MultiportCodingExerciseApplication {
+public class MultiportApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MultiportCodingExerciseApplication.class, args);
+		SpringApplication.run(MultiportApplication.class, args);
 	}
 
 	@Value("${fi.ishtech.practice.springboot.multiport.additional-ports:false}")

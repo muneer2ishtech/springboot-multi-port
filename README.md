@@ -2,10 +2,16 @@
 Spring Boot application that can run on multiple ports at the same time
 
 ## Tech stack
-- Java: 25
+
+- JDK 25 (default)
+- Other supported JDK versions:
+  - JDK 21
+  - JDK 17
 - Spring Boot: 4.0.x
 - Database: H2
 - Containerization: Docker
+
+Which application version (Docker image tag) to use for your JDK version: [JDK-VERSIONS.md](JDK-VERSIONS.md).
 
 ##
 
@@ -13,7 +19,7 @@ Spring Boot application that can run on multiple ports at the same time
 
 
 ## Design
-- [ishtech-jpa-base](https://github.com/ishtech/ishtech-base-jpa) - Foundational JPA and other base classes
+- [ishtech-springboot-base-jpa](https://github.com/ishtech/ishtech-springboot-base-jpa) - Foundational JPA and other base classes
 - [ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth) - For Authentication & Authorization
 
 ## Ports
@@ -24,6 +30,8 @@ Spring Boot application that can run on multiple ports at the same time
 - If application property `fi.ishtech.practice.springboot.multiport.additional-ports` or environment variable `FI_ISHTECH_PRACTICE_SPRINGBOOT_MULTIPORT_ADDITIONAL-PORTS` is set to `true`
     - PORT for `**/users/**` is `8082`
     - PORT for `**/books/**` is `8081`
+    - Calling them on any other port returns `400 - Bad Request`, see [CURL-INFO.md](./CURL-INFO.md)
+    - All other URLs (e.g. `/api/v1/auth/**`, `/actuator/**`) are not restricted and work on every port
 - By default additional-ports is set to `false`, i.e. all API URLs use only `8080` port
 
 
@@ -32,7 +40,7 @@ Spring Boot application that can run on multiple ports at the same time
 - For details you can see swagger documentation
     - [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
     - [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
-    - [http://localhost:8080/v3/api-docs.yaml](http://localhost:8080/v3//v3/api-docs.yaml)
+    - [http://localhost:8080/v3/api-docs.yaml](http://localhost:8080/v3/api-docs.yaml)
 
 - Note: Check and update URI and PORT on which application is running
 
@@ -48,6 +56,10 @@ Spring Boot application that can run on multiple ports at the same time
 ### Local
 
 - [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+
+
+## Known Issues
+- See [KNOWN-ISSUES.md](./KNOWN-ISSUES.md)
 
 
 ## Build and Run
