@@ -7,7 +7,7 @@ Spring Boot application that can run on multiple ports at the same time
 - Other supported JDK versions:
   - JDK 21
   - JDK 17
-- Spring Boot: 4.1.x
+- Spring Boot: 4.2.x
 - Database: H2
 - Containerization: Docker
 
